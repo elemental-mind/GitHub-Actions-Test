@@ -4,14 +4,9 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - name: Set up MinGW
-        uses: egor-tensin/setup-mingw@v2
-        with:
-          platform: x64
-      - name: Setup Ninja
-        uses: ashutoshvarma/setup-ninja@master
+      - uses: seanmiddleditch/gha-setup-ninja@master
       - name: Checkout files
         uses: actions/checkout@v2
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
-        timeout-minutes: 15
+        timeout-minutes: 30
