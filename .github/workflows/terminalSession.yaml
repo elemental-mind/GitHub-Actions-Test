@@ -12,8 +12,9 @@ jobs:
         shell: bash
       - name: Clone MinGW
         run: |
-          cd MinGW
+          cd /d/a/MinGW
           git clone https://github.com/mirror/mingw-w64.git .
+          shell: bash
       - name: Build headers
         run: |
           cd /d/a/MinGW/mingw-64-headers
