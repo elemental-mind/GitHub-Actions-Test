@@ -17,7 +17,7 @@ jobs:
         shell: bash
       - name: Build headers
         run: |
-          cd /d/a/MinGW/mingw-64-headers
+          cd /d/a/MinGW/mingw-w64-headers
           ./configure \
             --enable-lib32 \
             --enable-lib64 \
@@ -30,7 +30,7 @@ jobs:
         shell: bash
       - name: Build runtime
         run: |
-          cd /d/a/MinGW/mingw-64-crt
+          cd /d/a/MinGW/mingw-w64-crt
           ./configure \
             --enable-lib32 \
             --enable-lib64 \
