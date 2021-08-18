@@ -1,5 +1,5 @@
 name: Runner Terminal
-on: [workflow_dispatch]
+on: [workflow_dispatch, push]
 jobs:
   build:
     runs-on: windows-latest
@@ -9,6 +9,7 @@ jobs:
           cd /d/a/
           mkdir MinGW
           mkdir release
+        shell: bash
       - name: Clone MinGW
         run: |
           cd MinGW
@@ -24,7 +25,8 @@ jobs:
             --target=x86_64-w64-mingw32 \
             --with-default-msvcrt=ucrt \
             --enable-wildcard
-          make DESTDIR="/d/a/release" install
+          make DESTDIR="/d/a/release/" install
+        shell: bash
       - name: Build runtime
         run: |
           cd /d/a/MinGW/mingw-64-crt
@@ -37,7 +39,8 @@ jobs:
             --with-default-msvcrt=ucrt \
             --enable-wildcard
           make
-          make DESTDIR="/d/a/release" install-strip
+          make DESTDIR="/d/a/release/" install-strip
+        shell: bash
       - name: Create artifact
         uses: actions/upload-artifact@v2
         with:
