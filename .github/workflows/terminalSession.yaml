@@ -4,9 +4,42 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - name: Checkout files
-        uses: actions/checkout@v2
-      - uses: seanmiddleditch/gha-setup-ninja@master
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-        timeout-minutes: 120
+      - name: Create directories
+        run: |
+          cd /d/a/
+          mkdir MinGW
+          mkdir release
+      - name: Clone MinGW
+        run: |
+          cd MinGW
+          git clone https://github.com/mirror/mingw-w64.git .
+      - name: Build headers
+        run: |
+          cd /d/a/MinGW/mingw-64-headers
+          ./configure \
+            --enable-lib32 \
+            --enable-lib64 \
+            --enable-experimental \
+            --host=x86_64-w64-mingw32 \
+            --target=x86_64-w64-mingw32 \
+            --with-default-msvcrt=ucrt \
+            --enable-wildcard
+          make DESTDIR="/d/a/release" install
+      - name: Build runtime
+        run: |
+          cd /d/a/MinGW/mingw-64-crt
+          ./configure \
+            --enable-lib32 \
+            --enable-lib64 \
+            --enable-experimental \
+            --host=x86_64-w64-mingw32 \
+            --target=x86_64-w64-mingw32 \
+            --with-default-msvcrt=ucrt \
+            --enable-wildcard
+          make
+          make DESTDIR="/d/a/release" install-strip
+      - name: Create artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Win-Open-C-Runtime
+          path: /d/a/release/
