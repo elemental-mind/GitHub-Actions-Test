@@ -9,4 +9,4 @@ jobs:
       - uses: seanmiddleditch/gha-setup-ninja@master
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
-        timeout-minutes: 30
+        timeout-minutes: 120
