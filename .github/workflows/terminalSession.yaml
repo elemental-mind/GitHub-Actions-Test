@@ -29,10 +29,7 @@ jobs:
             --enable-wildcard
           make install
         shell: bash
-      - name: Debug
-        uses: mxschmitt/action-tmate@v3
-        timeout-minutes: 120
-      - name: Build runtime
+      - name: Configure runtime
         run: |
           cd /d/a/MinGW/mingw-w64-crt
           ./configure \
@@ -44,8 +41,14 @@ jobs:
             --target=x86_64-w64-mingw32 \
             --with-default-msvcrt=ucrt \
             --enable-wildcard
-          make
-          make DESTDIR="/d/a/release/" install-strip
+      - name: Build runtime
+        run: |
+          cd /d/a/MinGW/mingw-w64-crt
+          make CFLAGS="-w"
+      - name: Strip & install runtime
+        run: |
+          cd /d/a/MinGW/mingw-w64-crt
+          make install-strip
         shell: bash
       - name: Create artifact
         uses: actions/upload-artifact@v2
