@@ -28,7 +28,7 @@ jobs:
             --with-default-msvcrt=ucrt \
             --enable-wildcard
           make install
-        shell: bash
+        shell: C:\msys64\mingw64.exe {0}
       - name: Configure runtime
         run: |
           cd /d/a/MinGW/mingw-w64-crt
