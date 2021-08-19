@@ -32,6 +32,7 @@ jobs:
         run: |
           cd /d/a/MinGW/mingw-w64-crt
           ./configure \
+            --prefix="/d/a/release" \
             --enable-lib32 \
             --enable-lib64 \
             --enable-experimental \
