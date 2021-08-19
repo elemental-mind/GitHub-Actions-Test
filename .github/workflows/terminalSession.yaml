@@ -27,6 +27,7 @@ jobs:
             --with-default-msvcrt=ucrt \
             --enable-wildcard
           make DESTDIR="/d/a/release/" install
+          ls /d/a/release/
         shell: bash
       - name: Build runtime
         run: |
