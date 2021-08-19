@@ -41,10 +41,12 @@ jobs:
             --target=x86_64-w64-mingw32 \
             --with-default-msvcrt=ucrt \
             --enable-wildcard
+        shell: bash
       - name: Build runtime
         run: |
           cd /d/a/MinGW/mingw-w64-crt
           make CFLAGS="-w"
+        shell: bash
       - name: Strip & install runtime
         run: |
           cd /d/a/MinGW/mingw-w64-crt
