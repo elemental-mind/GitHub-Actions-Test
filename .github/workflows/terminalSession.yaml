@@ -19,7 +19,7 @@ jobs:
         run: |
           cd /d/a/MinGW/mingw-w64-headers
           ./configure \
-            --prefix="/d/a/release/"
+            --prefix="/d/a/release/" \
             --enable-lib32 \
             --enable-lib64 \
             --enable-experimental \
