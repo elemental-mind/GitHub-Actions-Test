@@ -6,7 +6,7 @@ jobs:
     steps:
       - name: Test mingw shell
         run: echo Sleeping for 10s && sleep 10s
-        shell: c/msys2/msys2_shell -mingw64 -defterm -c "{0}"
+        shell: C:\msys64\msys2_shell.cmd -mingw64 -defterm -c "{0}"
       - name: Create directories
         run: |
           cd /d/a/
