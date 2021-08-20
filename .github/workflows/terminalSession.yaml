@@ -10,6 +10,7 @@ jobs:
     steps:
       - name: Simple
         run: echo I am running in $(pwd)
+        shell: C:\msys64\msys2_shell.cmd -mingw64 -defterm -no-start -c "source $(cygpath '{0}')"
       - name: Create directories
         run: |
           mkdir /d/a/MinGW
