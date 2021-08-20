@@ -5,8 +5,14 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Test mingw shell
-        run: echo Sleeping for 10s && sleep 10s
-        shell: C:\msys64\msys2_shell.cmd -mingw64 -defterm -no-start -c "{0}"
+        run: |
+          echo Sleeping for 10s
+          sleep 10s
+          echo Woken up
+          echo falling asleep again
+          sleep 20s
+          echo No snoozing no more
+        shell: C:\msys64\msys2_shell.cmd -mingw64 -defterm -no-start -c "source $(echo  '/{0}' | sed 's/\\/\//g' | sed 's/://')"
       - name: Create directories
         run: |
           cd /d/a/
