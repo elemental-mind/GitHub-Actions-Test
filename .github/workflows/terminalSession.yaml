@@ -3,27 +3,19 @@ on: [workflow_dispatch, push]
 jobs:
   build:
     runs-on: windows-latest
-    steps:
-      - name: Test mingw shell
-        run: |
-          echo Sleeping for 10s
-          sleep 10s
-          echo Woken up
-          echo falling asleep again
-          sleep 20s
-          echo No snoozing no more
+    defaults:
+      run:
         shell: C:\msys64\msys2_shell.cmd -mingw64 -defterm -no-start -c ". $(cygpath '{0}')"
+        working-directory: C:\d\a\
+    steps:
       - name: Create directories
         run: |
-          cd /d/a/
           mkdir MinGW
           mkdir release
-        shell: bash
       - name: Clone MinGW
         run: |
           cd /d/a/MinGW
           git clone https://github.com/mirror/mingw-w64.git .
-        shell: bash
       - name: Build headers
         run: |
           cd /d/a/MinGW/mingw-w64-headers
@@ -37,7 +29,6 @@ jobs:
             --with-default-msvcrt=ucrt \
             --enable-wildcard
           make install
-        shell: C:\msys64\mingw64.exe {0}
       - name: Configure runtime
         run: |
           cd /d/a/MinGW/mingw-w64-crt
@@ -50,17 +41,14 @@ jobs:
             --target=x86_64-w64-mingw32 \
             --with-default-msvcrt=ucrt \
             --enable-wildcard
-        shell: bash
       - name: Build runtime
         run: |
           cd /d/a/MinGW/mingw-w64-crt
           make CFLAGS="-w"
-        shell: bash
       - name: Strip & install runtime
         run: |
           cd /d/a/MinGW/mingw-w64-crt
           make install-strip
-        shell: bash
       - name: Create artifact
         uses: actions/upload-artifact@v2
         with:
