@@ -5,13 +5,15 @@ jobs:
     runs-on: windows-latest
     defaults:
       run:
-        shell: C:\msys64\msys2_shell.cmd -mingw64 -defterm -no-start -c "echo $(cygpath '{0}') && source $(cygpath '{0}')"
+        shell: C:\msys64\msys2_shell.cmd -mingw64 -defterm -no-start -c "source $(cygpath '{0}')"
         working-directory: C:\d\a\
     steps:
-      # - name: Create directories
-      #   run: |
-      #     mkdir /d/a/MinGW
-      #     mkdir /d/a/release
+      - name: Simple
+        run: echo I am running in $(pwd)
+      - name: Create directories
+        run: |
+          mkdir /d/a/MinGW
+          mkdir /d/a/release
       - name: Clone MinGW
         run: |
           cd /d/a/MinGW
