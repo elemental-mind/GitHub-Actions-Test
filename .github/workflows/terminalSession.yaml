@@ -10,8 +10,8 @@ jobs:
     steps:
       - name: Create directories
         run: |
-          mkdir MinGW
-          mkdir release
+          mkdir /d/a/MinGW
+          mkdir /d/a/release
       - name: Clone MinGW
         run: |
           cd /d/a/MinGW
