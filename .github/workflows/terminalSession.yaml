@@ -12,7 +12,7 @@ jobs:
           echo falling asleep again
           sleep 20s
           echo No snoozing no more
-        shell: C:\msys64\msys2_shell.cmd -mingw64 -defterm -no-start -c ". cygpath '{0}'"
+        shell: C:\msys64\msys2_shell.cmd -mingw64 -defterm -no-start -c ". $(cygpath '{0}')"
       - name: Create directories
         run: |
           cd /d/a/
