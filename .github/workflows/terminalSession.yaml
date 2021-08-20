@@ -8,10 +8,10 @@ jobs:
         shell: C:\msys64\msys2_shell.cmd -mingw64 -defterm -no-start -c ". $(cygpath '{0}')"
         working-directory: C:\d\a\
     steps:
-      - name: Create directories
-        run: |
-          mkdir /d/a/MinGW
-          mkdir /d/a/release
+      # - name: Create directories
+      #   run: |
+      #     mkdir /d/a/MinGW
+      #     mkdir /d/a/release
       - name: Clone MinGW
         run: |
           cd /d/a/MinGW
