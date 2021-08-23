@@ -3,6 +3,12 @@ on: [workflow_dispatch, push]
 jobs:
   build:
     runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        bitness: [32, 64]
+        architecture: [lib, libarm] #lib is x86, libarm is ARM
+        baseLibrary: [msvcrt, ucrt]
     defaults:
       run:
         shell: C:\msys64\msys2_shell.cmd -mingw64 -defterm -no-start -c "source $(cygpath '{0}')"
@@ -21,25 +27,19 @@ jobs:
           cd /d/a/MinGW/mingw-w64-headers
           ./configure \
             --prefix="/d/a/release/" \
-            --enable-lib32 \
-            --enable-lib64 \
+            --enable-${{ matrix.architecture }}${{ matrix.bitness }}
             --enable-experimental \
-            --host=x86_64-w64-mingw32 \
-            --target=x86_64-w64-mingw32 \
-            --with-default-msvcrt=ucrt \
+            --with-default-msvcrt=${{ matrix.baseLibrary }} \
             --enable-wildcard
           make install
       - name: Configure runtime
         run: |
           cd /d/a/MinGW/mingw-w64-crt
           ./configure \
-            --prefix="/d/a/release" \
-            --enable-lib32 \
-            --enable-lib64 \
+            --prefix="/d/a/release/" \
+            --enable-${{ matrix.architecture }}${{ matrix.bitness }}
             --enable-experimental \
-            --host=x86_64-w64-mingw32 \
-            --target=x86_64-w64-mingw32 \
-            --with-default-msvcrt=ucrt \
+            --with-default-msvcrt=${{ matrix.baseLibrary }} \
             --enable-wildcard
       - name: Build runtime
         run: |
@@ -49,8 +49,15 @@ jobs:
         run: |
           cd /d/a/MinGW/mingw-w64-crt
           make install-strip
-      - name: Create artifact
+      - name: Create artifact x86
+        if: matrix.architecture == "lib"
         uses: actions/upload-artifact@v2
         with:
-          name: Win-Open-C-Runtime
+          name: Win-Open-C-Runtime-Win-x86-${{ matrix.bitness}}
+          path: D:\a\release\
+      - name: Create artifact ARM
+        if: matrix.architecture == "libarm"
+        uses: actions/upload-artifact@v2
+        with:
+          name: Win-Open-C-Runtime-ARM-${{ matrix.bitness }}
           path: D:\a\release\
