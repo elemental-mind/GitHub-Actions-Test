@@ -7,8 +7,8 @@ jobs:
       fail-fast: false
       matrix:
         bitness: [32, 64]
-        architecture: [lib, libarm] #lib is x86, libarm is ARM
-        baseLibrary: [msvcrt, ucrt]
+        architecture: ['lib', 'libarm'] #lib is x86, libarm is ARM
+        baseLibrary: ['msvcrt', 'ucrt']
     defaults:
       run:
         shell: C:\msys64\msys2_shell.cmd -mingw64 -defterm -no-start -c "source $(cygpath '{0}')"
