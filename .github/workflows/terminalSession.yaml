@@ -12,15 +12,21 @@ jobs:
     defaults:
       run:
         shell: C:\msys64\msys2_shell.cmd -mingw64 -defterm -no-start -c "source $(cygpath '{0}')"
+    outputs:
+      version: ${{ steps.version.outputs.version}}
     steps:
       - name: Create directories
         run: |
           mkdir /d/a/MinGW
           mkdir /d/a/release
-      - name: Clone MinGW
+      - name: Clone MinGW & checkout latest version
+        id: version
         run: |
           cd /d/a/MinGW
           git clone https://github.com/mirror/mingw-w64.git .
+          version=$(git describe --tags `git rev-list --tags --max-count=1`)
+          git checkout tags/${version} -b master
+          echo "::set-output name=version::${version}"
         shell: bash
       - name: Build headers
         run: |
@@ -61,3 +67,16 @@ jobs:
         with:
           name: Win-Open-C-Runtime-ARM-${{ matrix.bitness }}
           path: D:\a\release\
+  release:
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+      - name: Create release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: '${{ secrets.GITHUB_TOKEN }}'
+          prerelease: false
+          title: Windows-Open-C-Runtime-${{ needs.build.outputs.version }}
+          files: '*'
