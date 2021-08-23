@@ -25,7 +25,7 @@ jobs:
           cd /d/a/MinGW
           git clone https://github.com/mirror/mingw-w64.git .
           version=$(git describe --tags `git rev-list --tags --max-count=1`)
-          git checkout tags/${version} -b master
+          git checkout ${version}
           echo "::set-output name=version::${version}"
         shell: bash
       - name: Build headers
