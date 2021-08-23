@@ -33,7 +33,7 @@ jobs:
           cd /d/a/MinGW/mingw-w64-headers
           ./configure \
             --prefix="/d/a/release/" \
-            --enable-${{ matrix.architecture }}${{ matrix.bitness }}
+            --enable-${{ matrix.architecture }}${{ matrix.bitness }} \
             --enable-experimental \
             --with-default-msvcrt=${{ matrix.baseLibrary }} \
             --enable-wildcard
@@ -43,7 +43,7 @@ jobs:
           cd /d/a/MinGW/mingw-w64-crt
           ./configure \
             --prefix="/d/a/release/" \
-            --enable-${{ matrix.architecture }}${{ matrix.bitness }}
+            --enable-${{ matrix.architecture }}${{ matrix.bitness }} \
             --enable-experimental \
             --with-default-msvcrt=${{ matrix.baseLibrary }} \
             --enable-wildcard
