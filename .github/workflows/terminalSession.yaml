@@ -56,13 +56,13 @@ jobs:
           cd /d/a/MinGW/mingw-w64-crt
           make install-strip
       - name: Create artifact x86
-        if: matrix.architecture == "lib"
+        if: matrix.architecture == 'lib'
         uses: actions/upload-artifact@v2
         with:
           name: Win-Open-C-Runtime-Win-x86-${{ matrix.bitness}}
           path: D:\a\release\
       - name: Create artifact ARM
-        if: matrix.architecture == "libarm"
+        if: matrix.architecture == 'libarm'
         uses: actions/upload-artifact@v2
         with:
           name: Win-Open-C-Runtime-ARM-${{ matrix.bitness }}
